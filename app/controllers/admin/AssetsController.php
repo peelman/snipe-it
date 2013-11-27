@@ -267,6 +267,16 @@ class AssetsController extends AdminController {
 			// Was the asset updated?
 			if($asset->save())
 			{
+				// Log the Edit
+				$logaction = new Actionlog();
+				$logaction->asset_id = $asset->id;
+				$logaction->checkedout_to = null;
+				$logaction->asset_type = null;
+				$logaction->location_id = null;
+				$logaction->user_id = Sentry::getUser()->id;
+				$logaction->note = e(Input::get('edit_note'));
+				$log = $logaction->logaction('edited');
+				
 				// Redirect to the new asset page
 				return Redirect::to("admin")->with('success', Lang::get('admin/assets/message.update.success'));
 			}
