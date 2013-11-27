@@ -270,9 +270,9 @@ class AssetsController extends AdminController {
 				// Log the Edit
 				$logaction = new Actionlog();
 				$logaction->asset_id = $asset->id;
-				$logaction->checkedout_to = null;
+				$logaction->checkedout_to =$asset->assigned_to ;
 				$logaction->asset_type = null;
-				$logaction->location_id = null;
+				$logaction->location_id = $asset->assigned_to->location_id;
 				$logaction->user_id = Sentry::getUser()->id;
 				$logaction->note = e(Input::get('edit_note'));
 				$log = $logaction->logaction('edited');
